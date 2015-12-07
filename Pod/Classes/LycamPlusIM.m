@@ -128,7 +128,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
             }
         }];
         
-        [im.socket emitWithAck:@"subscribe" withItems:@[body]];
+        [im.socket emit:@"subscribe" withItems:@[body]];
     };
 
     [im connectAndDoingWithBlock:block callback:resultBlock];
@@ -152,7 +152,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
             }
         }];
         
-        [im.socket emitWithAck:@"unsubscribe" withItems:@[body]];
+        [im.socket emit:@"unsubscribe" withItems:@[body]];
     };
     
     [im connectAndDoingWithBlock:block callback:resultBlock];
@@ -175,7 +175,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
             }
         }];
         
-        [im.socket emitWithAck:@"publish" withItems:@[body]];
+        [im.socket emit:@"publish" withItems:@[body]];
     };
     
     [im connectAndDoingWithBlock:block callback:resultBlock];
