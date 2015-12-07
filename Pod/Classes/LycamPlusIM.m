@@ -111,7 +111,8 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
 
 
 
--(void)subscribe:(NSString *)topic qos:(NSInteger)qosLevel resultBlock:(LCPResultBlock)resultBlock{
++(void)subscribe:(NSString *)topic qos:(NSInteger)qosLevel resultBlock:(LCPResultBlock)resultBlock{
+    LycamPlusIM * im = [LycamPlusIM sharedInstance];
 
     NSString *msgId =  GEN_MESSAGE_ID;
 
@@ -119,7 +120,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
     
     LCPBlock block = ^(LCPResultBlock cb){
         
-        [self.socket on:@"suback" callback:^(NSArray* data, SocketAckEmitter* ack) {
+        [im.socket on:@"suback" callback:^(NSArray* data, SocketAckEmitter* ack) {
             NSLog(@"%@",data);
             if(resultBlock){
                 cb(YES,nil);
@@ -127,10 +128,10 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
             }
         }];
         
-        [self.socket emitWithAck:@"subscribe" withItems:@[body]];
+        [im.socket emitWithAck:@"subscribe" withItems:@[body]];
     };
 
-    [self connectAndDoingWithBlock:block callback:resultBlock];
+    [im connectAndDoingWithBlock:block callback:resultBlock];
 
 }
 
@@ -157,15 +158,16 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
     [im connectAndDoingWithBlock:block callback:resultBlock];
 }
 
-- (void)publish:(NSString *)topic msg:(NSString *) msg option:(YBPublishOption *)option resultBlock:(LCPResultBlock)resultBlock{
-    
++ (void)publish:(NSString *)topic msg:(NSString *) msg option:(YBPublishOption *)option resultBlock:(LCPResultBlock)resultBlock{
+    LycamPlusIM * im = [LycamPlusIM sharedInstance];
+
     NSString *msgId =  GEN_MESSAGE_ID;
     
     NSDictionary * body = @{@"topic": topic, @"qos": @(kYBQosLevel1), @"msg":msg,@"messageId": msgId};
     
     LCPBlock block = ^(LCPResultBlock cb){
         
-        [self.socket on:@"puback" callback:^(NSArray* data, SocketAckEmitter* ack) {
+        [im.socket on:@"puback" callback:^(NSArray* data, SocketAckEmitter* ack) {
             NSLog(@"%@",data);
             if(resultBlock){
                 resultBlock(YES,nil);
@@ -173,23 +175,16 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
             }
         }];
         
-        [self.socket emitWithAck:@"publish" withItems:@[body]];
+        [im.socket emitWithAck:@"publish" withItems:@[body]];
     };
     
-    [self connectAndDoingWithBlock:block callback:resultBlock];
+    [im connectAndDoingWithBlock:block callback:resultBlock];
     
     
     
 
 }
-+ (void)publish:(NSString *)topic msg:(NSString *) msg option:(YBPublishOption *)option resultBlock:(LCPResultBlock)resultBlock{
-    [[self sharedInstance] publish:topic msg:msg option:option resultBlock:resultBlock];
-}
 
-
-+(void)subscribe:(NSString *)topic qos:(NSInteger)qosLevel resultBlock:(LCPResultBlock)resultBlock{
-    [[self sharedInstance] subscribe:topic qos:qosLevel resultBlock:resultBlock];
-}
 
 
 
