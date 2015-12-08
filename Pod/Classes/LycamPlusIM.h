@@ -20,7 +20,7 @@ typedef NS_ENUM(UInt8, YBQosLevel) {
     kYBQosLevel1 = 1,
     kYBQosLevel2 = 2,
 };
-@interface YBPublishOption : NSObject
+@interface LCPPublishOption : NSObject
 @property (nonatomic, assign) UInt8 qosLevel;                   // qos level
 @property (nonatomic, assign) BOOL retained;                    // is retained
 + (instancetype)optionWithQos:(YBQosLevel)qosLevel retained:(BOOL)retained;
@@ -35,6 +35,6 @@ typedef NS_ENUM(UInt8, YBQosLevel) {
 + (BOOL)close;
 + (void)subscribe:(NSString *)topic qos:(UInt8)qosLevel resultBlock:(LCPResultBlock)resultBlock;
 + (void)unsubscribe:(NSString *)topic resultBlock:(LCPResultBlock)resultBlock;
-+ (void)publish:(NSString *)topic msg:(NSString *) msg option:(YBPublishOption *)option resultBlock:(LCPResultBlock)resultBlock;
++ (void)publish:(NSString *)topic msg:(NSString *) msg option:(LCPPublishOption *)option resultBlock:(LCPResultBlock)resultBlock;
 
 @end

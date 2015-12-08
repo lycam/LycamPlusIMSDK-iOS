@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        LycamPlusIM .initWithAppkey("");
+        LycamPlusIM .initWithAppkey("5663d0844407a3cd028aa5e4");
 //         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onMessageReceived:) name:kLCPConnectionStatusChangedNotification object:nil];
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"onMessageReceived:", name: kLCPDidReceiveMessageNotification, object: nil)

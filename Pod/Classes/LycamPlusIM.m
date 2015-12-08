@@ -17,7 +17,8 @@ NSString * const kLCPDidReceivePresenceNotification= @"LCPDidReceivePresenceNoti
 @end
 
 static LycamPlusIM *_lycamplusIM = nil;
-NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
+NSString * const kServiceURL = @"https://im.lycam.tv";
+//NSString * const kServiceURL = @"http://sock.yunba.io:3000";
 @implementation LycamPlusIM
 {
     SocketIOClient* _socket;
@@ -52,14 +53,14 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
 
 -(void) connect:(LCPResultBlock) callback{
     if(_socket==nil)
-        _socket = [[SocketIOClient alloc] initWithSocketURL:kServiceURL options:@{@"log": @YES, @"forcePolling": @YES}];
+        _socket = [[SocketIOClient alloc] initWithSocketURL:kServiceURL options:@{@"log": @YES, @"forcePolling": @NO,@"ForceWebsockets":@YES}];
     if(self.isConnected==NO){
         [_socket on:@"connect" callback:^(NSArray* data, SocketAckEmitter* ack) {
             NSLog(@"socket connected");
             _isConnected = YES;
             [self.socket on:@"message" callback:^(NSArray* data, SocketAckEmitter* ack) {
                 NSLog(@"%@",data);
-                [[NSNotificationCenter defaultCenter] postNotificationName:kLCPDidReceiveMessageNotification object:nil userInfo:@{@"data":data}];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kLCPDidReceiveMessageNotification object:data];
             }];
             NSDictionary * body = @{@"appkey": self.appKey};
             [self.socket on:@"connack" callback:^(NSArray* data, SocketAckEmitter* ack) {
@@ -101,7 +102,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
 }
 
 
-#define GEN_MESSAGE_ID [NSString stringWithFormat:@"%d%D",rand(),rand()]
+#define GEN_MESSAGE_ID [NSString stringWithFormat:@"%d%d%d",rand(),rand(),rand()]
 //#define CONNECT_AND_DOING(callback)    \
 //    [self connect:^(BOOL succ, NSError *error) { \
 //        if(succ==NO){ \
@@ -111,7 +112,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
 
 
 
-+(void)subscribe:(NSString *)topic qos:(NSInteger)qosLevel resultBlock:(LCPResultBlock)resultBlock{
++(void)subscribe:(NSString *)topic qos:(UInt8)qosLevel resultBlock:(LCPResultBlock)resultBlock{
     LycamPlusIM * im = [LycamPlusIM sharedInstance];
 
     NSString *msgId =  GEN_MESSAGE_ID;
@@ -158,7 +159,7 @@ NSString * const kServiceURL = @"mqtt.lycam.tv:3000";
     [im connectAndDoingWithBlock:block callback:resultBlock];
 }
 
-+ (void)publish:(NSString *)topic msg:(NSString *) msg option:(YBPublishOption *)option resultBlock:(LCPResultBlock)resultBlock{
++ (void)publish:(NSString *)topic msg:(NSString *) msg option:(LCPPublishOption *)option resultBlock:(LCPResultBlock)resultBlock{
     LycamPlusIM * im = [LycamPlusIM sharedInstance];
 
     NSString *msgId =  GEN_MESSAGE_ID;
