@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func onMessageReceived(notification:NSNotification){
         //var data:NSDictionary? = notification.userInfo["data"];
-        print(notification.userInfo);
+        print(notification.object);
     }
     
     func applicationWillResignActive(application: UIApplication) {
