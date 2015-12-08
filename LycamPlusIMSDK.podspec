@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint LycamPlusIMSDK-iOS.podspec' to ensure this is a
+# Be sure to run `pod lib lint LycamPlusIMSDK.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "LycamPlusIMSDK"
-  s.version          = "0.1.1"
-  s.summary          = "A short description of LycamPlusIMSDK-iOS."
+  s.version          = "0.1.3"
+  s.summary          = "A short description of LycamPlusIMSDK."
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -19,23 +19,23 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
                        DESC
 
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/LycamPlusIMSDK-iOS"
+  s.homepage         = "https://github.com/<GITHUB_USERNAME>/LycamPlusIMSDK"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { "xman" => "no777.nobody@gmail.com" }
-  s.source           = { :git => "/Users/xman/Documents/devel/lycam+/LycamPlusIMSDK-iOS", :tag => s.version.to_s }
+  s.author           = { "no777" => "no777.nobody@gmail.com" }
+  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/LycamPlusIMSDK.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '7.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
-    'LycamPlusIMSDK-iOS' => ['Pod/Assets/*.png']
+    'LycamPlusIMSDK' => ['Pod/Assets/*.png']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.dependency 'Socket.IO-Client-Swift' 
+  s.dependency 'SIOSocket', '~> 0.2.0'
 end
