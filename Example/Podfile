@@ -2,11 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'LycamPlusIMSDK_Example', :exclusive => true do
-  pod "LycamPlusIMSDK", :path => "../"
+  pod "LycamPlusIM", :path => "../"
 end
 
 target 'LycamPlusIMSDK_Tests', :exclusive => true do
-  pod "LycamPlusIMSDK", :path => "../"
+  pod "LycamPlusIM", :path => "../"
 
   pod 'Specta'
   pod 'Expecta'

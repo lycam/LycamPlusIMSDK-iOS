@@ -34,3 +34,4 @@ Carthage
 Example/Pods
 swift/Example/Pods
 swift
+Podfile.lock
